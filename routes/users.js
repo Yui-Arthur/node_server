@@ -84,14 +84,18 @@ router.route('/api/user/:account')
     .get(function (req, res) {
 
         if(req.header('Authorization') == undefined){
-            res.sendStatus(403)
+            res.sendStatus(401)
             return 
         }
         users.valToken(req.header('Authorization').replace('Bearer ', ''), function(err,results){
         
             if(err){
-                console.log(err)
-                res.sendStatus(403)
+                console.log(err.name)
+                if(err.name === 'TokenExpiredError') 
+                res.sendStatus(401)
+                else
+                res.sendStatus(400)
+
                 return
             }
             else{

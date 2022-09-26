@@ -38,12 +38,7 @@ module.exports = {
         return token = jwt.verify(token , conf.SERECT , callback)
     },
     newUser: function (req , callback){
-        // bcrypt.hash(req.body.password, saltRounds ).then(function (hash){
-        //     req.body.password = hash
-        //     sql = mysql.format('INSERT INTO user SET ?' , req.body);
-            
-        //     return connection.query(sql, callback);
-        // })
+        
         req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
         sql = mysql.format('INSERT INTO user SET ?' , req.body);
         return connection.query(sql, callback);
